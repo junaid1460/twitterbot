@@ -90,8 +90,8 @@ passport.deserializeUser(function(obj, cb) {
 
 
 
-//some function will go lengthy and messy 
-//coz javascript's many dunction are async and that's not good for 
+//some functions will go lengthy and messy 
+//coz javascript's many function are async and that's not good for 
 //our app. serializing is hell :p
 function getData(T,username,cb){
 
@@ -155,19 +155,27 @@ obtainTweets('statuses/user_timeline',{q:"http:// since:2017-05-23",count : 3000
         //3 and 4
         foreach(data[0].ids.length -1,data[0].ids,null,dataset,(e,datas) => {
           var pdata = [];
-          //romove old data if exist. don't want to go
+          //romove old data if exist. don't want to go out of memory
           // following things are mongoose stuffs
+          // Now I have all tweets I need
+          // let's do some post processing on the data
           console.log("processing data");
           database.Tweet.remove({user : username }).exec((error,res) => {
             if(error){
                 console.log("database error");
-                return;
+                cb(null)//so when user trys again i could repeat this process again,
             }else{
+                    //old data deleted now let's store new
                     console.log("deleted old data!");
                     console.log("saving data")
+                    //let's go serially
                     new Promise(function(res,red){
-                        var dt = [];
+
+                        var dt = []; //this var will have processed data
+                        //promise resolver
                         res(function(){
+
+                            //the data structure for storing necessary information of each tweet
                             class Tweet{
                                 constructor(user,name,dp,urls,text,date,img){
                                     this.user = user;
@@ -180,8 +188,10 @@ obtainTweets('statuses/user_timeline',{q:"http:// since:2017-05-23",count : 3000
 
                             } 
 
-
+                            //iterate
                             for(i=0;i<datas.length;i++){
+                                //her I'm filtering tweets
+                                //take only those tweets which has some sort of link in it
                                 if(datas[i].entities.urls.length > 0)
                                     {
 
@@ -197,27 +207,34 @@ obtainTweets('statuses/user_timeline',{q:"http:// since:2017-05-23",count : 3000
                                 }
                             
                         }())
+
+                        // another promise resolver
                         res(function(){
                             
-                             database.Tweet({
-                        user : username,
-                        tweets :dt
-                    }).save(function(e,r){
-                            if(!e){
-                                console.log("data pulled successfully!")
-                                cb(dt);
-                            } else {
-                                console.log("could not pull data!")
-                                
-                            }
-                    });
+                                database.Tweet({ // the tweet's collection
+                                     user : username,
+                                    tweets :dt      
+                                }).save(function(e,r){
+                                    if(!e){
+                                        console.log("data pulled from twitter and saved successfully!")
+                                        cb(dt);
+                                    } else {
+                                        
+                                        console.log("couldn't pull data!") //logs are always good easy debugging see the message ctrl + f search lmao :p
+                                        cb(null)//so when user trys again i could repeat this process again,
+                                 }
+                             });
                         }())
+                        //second promise ends here
+                        //seriously saying I have no habit of writing comments
+                        //sorry if there is spelling mistake
                     })
+                    //end promise
                     
                     
                    
-                }
-        })
+            }//out from old data's 'else'
+        })// out from datbase delete query
        
     });
 })
@@ -234,7 +251,7 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 
-// app routes
+// some databse related routes if I want make in future lol
 require("./database").registerRoutes(router);
 
 router.get("/guest",require('connect-ensure-login').ensureLoggedOut(),function(req,res,next){
@@ -248,16 +265,24 @@ router.get("/guest",require('connect-ensure-login').ensureLoggedOut(),function(r
 // wait for 3-4 seconds rather than letting user  
 // get pissed of seeing no data.
 router.get("/",require('connect-ensure-login').ensureLoggedIn("/guest"),function(req,res,next){
+        /*
+            the main job here to fetch data and store it in session variable
+            the messy function up there is called with a callback in the call back im gonna redirect into panic page 
+            and in /panic exactly in 1 second after loading panic page i'm gonna redirect back to home 
+            so that i could repeat the process of pulling data :p
+        */
     if(!req.session.tweets){
 
         database.User.findOne({username : req.user.username},function(err,obj){
-        return getData(new twit({
+        return getData(new twit({   //important
             consumer_key: consumer_key,
-            consumer_secret: consumer_secret,
+            consumer_secret: consumer_secret, 
             access_token_key: obj.token,
             access_token_secret: obj.secret
         }),obj.username,function(e){
             console.log("session var")
+            if(e==null) //redirect in case of error
+                res.redirect('/panic')
             req.session.tweets = e;
             res.render("index.ejs");
         })
@@ -270,10 +295,10 @@ router.get("/",require('connect-ensure-login').ensureLoggedIn("/guest"),function
 
 //logout lol
 router.get("/logout",require('connect-ensure-login').ensureLoggedIn("/guest"),function(req,res,next){
+    //delete session variable and logout
     req.session.tweets = null;
     req.logout();
-    
-    res.redirect("/")
+    res.redirect("/guest")
 });
 
 // updating data while user is still logged in
@@ -286,7 +311,8 @@ router.get("/update",require('connect-ensure-login').ensureLoggedIn("/guest"),fu
 
 //for the sake of angular 
 router.get("/help",require('connect-ensure-login').ensureLoggedIn("/guest"),function(req,res,next){
-    
+    //i have defined and /help route in angular 
+    // so this route is here to avoid error :( cannot get /help
     res.render("index.ejs")
 });
 
@@ -305,50 +331,6 @@ router.get("/api/gettweets",require('connect-ensure-login').ensureLoggedIn("/gue
 
 
 
-
-//update domains
-//here we query trending domains
-//
-function updateDomain(tweets,callback){
-   
-    return new Promise((res,red) => {
-        let data = []
-        res(function(){
-            function DomainListItem(){
-                this.count = 0;
-                this.domains = [];
-            }
-            let rex =/https?:\/\/[\[\w\-\.]*\.[\w]*/i;
-            for(let i = 0 ;i< tweets.length;i++) {
-                    data[tweets[i].user] =  data[tweets[i].user] || new DomainListItem()
-                    for(let j = 0 ;j< tweets[i].urls.length;j++) {
-                        data[tweets[i].user].count++;
-                        let tmp = rex.exec(tweets[i].urls[j].expanded_url)[0]
-                        data[tweets[i].user].domains[tmp] = data[tweets[i].user].domains[tmp] || 0
-                        data[tweets[i].user].domains[tmp]++;
-                    }
-                
-            }
-           return callback(null,data)
-        }());
-      
-        
-    })
-}
-
-
-//oh yea if session variable is set. then use itto calculate
-router.get("/api/getdomains",require('connect-ensure-login').ensureLoggedIn("/guest"),function(req,res,next){
-    if(req.session.domains){
-        res.json(req.session.domains)
-    }else{
-       return updateDomain(req.session.tweets,function(e,data){
-           
-            res.json(JSON.stringify(data))
-        })
-    }
-});
-
 router.get("/api/profile",require('connect-ensure-login').ensureLoggedIn("/guest"),function(req,res,next){
     res.json(req.user);
 });
@@ -356,21 +338,25 @@ router.get("/api/profile",require('connect-ensure-login').ensureLoggedIn("/guest
 
 
 //twitter specific
-
 router.get('/login/twitter',passport.authenticate('twitter'));
 
+//intermediate redirect page
 router.get("/redirect",require('connect-ensure-login').ensureLoggedIn("/guest"),function(req,res,next){
     res.render("redirect.html")
 });
 
+
+//error page
 router.get("/panic",require('connect-ensure-login').ensureLoggedIn("/guest"),function(req,res,next){
     res.render("panic.html")
 });
 
+
+//twitter call back
 router.get('/twitter/authenticated', passport.authenticate('twitter', { failureRedirect: '/panic' }),
     function(req, res) {
          res.redirect('/redirect');
-  });
+});
 
 
 
