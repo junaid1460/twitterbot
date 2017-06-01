@@ -1,0 +1,163 @@
+.out{
+    display: flex;
+    flex-direction: column;
+    height:100%;
+    width:100%
+}
+.toolbar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 60px;
+    background:#ffffff;
+        padding: 0 20px 0 10px;
+}
+.toolbar button{
+    background: none;
+    padding-left:10px;
+
+}
+div.container{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+.sb{
+    width:60px;
+    height:100%;
+    background:#0f0f0f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.sb button{background:none;color:white}
+.pane{
+    background:#0f0f0f;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    color: white
+}
+
+.content{
+    width: 100%;
+    height: 100%;
+    overflow-y:scroll;
+    
+}
+.cover{
+    display: none;
+
+}
+
+.tweets{
+    margin:45px;
+    list-style: none;
+
+}
+
+.tweets li:nth-child(even) {justify-content: flex-end}
+.tweets li:nth-child(odd) {justify-content: flex-start}
+.tweets li > div{
+    margin: 10px;
+      box-shadow: 0 3px 1px grey;;
+    border-radius:4px;
+    max-width: 600px;
+    min-width: 300px
+}
+.tweets li{
+    display: flex;
+    max-width: 100%;
+    min-width: 100%
+}
+.twbody,.twinfo{
+    padding: 10px;
+}
+.twbody{
+  background: white;
+}
+.twinfo{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 4px 4px  0 0 ;
+    background: #00bcd4;
+}
+
+
+
+.twinfo > *{
+    margin-top: 15px;
+}
+.tw_dp{
+    border-radius: 100px;
+}
+
+.pane{
+    padding: 4px;
+    
+}
+
+.userpane{
+    padding: 7px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 4px;
+}
+.ico{
+    font-size:60px
+}
+.toolbar{
+    color:#00bcd4;
+}
+
+
+
+@media (max-width:700px){
+
+       .container .drawer{
+           position: absolute;
+           z-index: 5;
+           width: 100%;
+        
+       }
+       .content{
+           width:100vw;
+       }
+     .container .cover{
+         display: block;
+         height: 100%;
+         width: 100%;
+         background: rgba(0,0,0,.5)
+     }
+     .tweets{
+    margin:5px;
+    list-style: none;
+
+}
+
+.tweets li:nth-child(even) {justify-content: center}
+.tweets li:nth-child(odd) {justify-content: center}
+
+.userpane{
+    overflow: scroll;
+}
+.ico{
+    font-size: 50px;
+}
+
+.pane{
+    width:250px
+}
+
+.toolbar{
+    margin: 0;
+    color: #607d8b;
+}
+}
+

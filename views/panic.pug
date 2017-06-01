@@ -1,0 +1,11 @@
+html
+    head
+        title Twitter Bot
+        link(rel="stylesheet",href="redirect.css")
+        meta(name="viewport",content="width=device-width, initial-scale=1")
+    body
+        div(class="container")
+            div(class="info")
+                h1 Something went wrong!
+                p redirecting to home
+        script() setTimeout(function(){window.location.href = "/";},1000);

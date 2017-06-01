@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+    outline: 0;
+      font-family: arial;
+}
+div.container{
+    display:flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background: #2196f3;
+}
+
+div.toolbar {
+    height: 150px;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    background:linear-gradient(to top,rgba(0,0,0,0),rgba(0,0,0,0.2),rgba(0,0,0,0.4));
+    padding: 0 20px 0 20px;
+    color:white;
+}
+
+div.body{
+    height: 100%;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+
+a.logbutton{
+    padding: 5px 15px 5px 15px;
+    outline: none;
+    border: none;
+    color:white;
+    background: none;
+    border: 2px white solid;
+    border-radius: 200px;
+    font-size: 25pt;
+    transition: 0.4s all ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+}
+a.logbutton:hover{
+    box-shadow: 0 3px 7px black;
+}
+a.logbutton:active{
+    box-shadow: 0 0 1px black;
+}
+
+.logo{
+    color:white;
+    font-weight: 100;
+    text-shadow: 0 1px 2px black;
+    width:100%;
+}
+
+@media (max-width:600px){
+    div.toolbar{
+         flex-direction: column;
+         padding: 30px 0 0 0;
+    }
+    .logo{
+        width:auto;
+    }
+}

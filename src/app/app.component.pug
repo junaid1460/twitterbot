@@ -1,0 +1,53 @@
+router-outlet
+    div(class="container")
+        div(class="container drawer", [style.display]="show")
+            div(class="container")
+                div(class="sb")
+                    div(style="display:flex;height:100%;flex-direction:column;padding-top:30px;align-items: center;")
+                        img(style="border-radius:50px;width:30px;height:30px",title="{{name}}",src="{{img}}")
+                        button(class="icon",[routerLink]="['/help']",title="About")
+                            i(class="material-icons") info
+                        a(class="icon",(click)="sd()",style="color:white;cursor:pointer",title="log out",href="/logout")
+                            i(class="material-icons") exit_to_app
+                    div(style="display:flex;height:100px;align-items: center;flex-direction: column;")
+                        button(class="icon",(click)="sd()" ,*ngIf="!dl")
+                            i(class="material-icons") close
+                        
+                div(class="pane")
+                   
+                    div(class="userpane",style="margin-top:10px" ,*ngIf="topSharer")
+                        div(class="userpane") 
+                            div(style="padding:15px") Max links Shared by
+                            div(style="margin-top:20px;display:flex;flex-direction:row;justify-content:center;margin:5px")
+                                div(class="user")
+                                    img(style="border-radius:50px",src="{{topSharer.dp}}")
+                                div(style="margin-left:10px")
+                                    p {{topSharer.name}}
+                                    p @{{topSharer.user}}
+                    div(class="userpane",style="margin-top:10px" ,*ngIf="topSharer") Links
+                        div(class="userpane", *ngFor="let dom of domains")
+                            a(href="{{dom.name}}") {{dom.name}}
+                        
+
+            div(class="cover",(click)="sd()")
+        div(class="out")
+            div(class="toolbar")
+                    div(style="display:flex;height:100%;")
+                        button(class="icon",*ngIf="!dl",(click)="sd()")
+                            i(class="material-icons") menu
+                        div(style="")
+                            i(class="material-icons",class="ico") cloud
+                    div(style="display:flex;width:100%;height:100%;flex-direction:row;align-items:center;justify-content:flex-end;")
+                        h1(style=";font-weight:lighter") Twitter Bot
+
+            div(class="content")
+                ul(class="tweets")
+                    li(*ngFor="let tweet of tweets")
+                        div(class="tweet",style="width:100%")
+                            div(class="twinfo")
+                                img(class="tw_dp",src="{{tweet.dp}}",alt="/user.png")
+                                p(style="margin-left:4px")  {{tweet.name}}
+                            div(class="twbody")
+                                p([innerHTML]='tweet.text')
+                        
+
