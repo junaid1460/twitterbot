@@ -1,13 +1,12 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
-var Twitter = require("twit");
 var passport = require("passport")
 var pt = require("passport-twitter")
 
 var app = express();
 
-var port = 80;                              //release
+var port = process.env.PORT || 5000;                              //release
 if(process.env.DEBUG = true) port = 8000;   //debug
 
 

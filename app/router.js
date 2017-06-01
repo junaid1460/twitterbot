@@ -3,7 +3,6 @@ var router = express.Router();
 var passport  = require("passport")
 var TwitterLoginCred = require("passport-twitter").Strategy
 var twit = require("twitter")
-var Twit = require('twit')
 var database = require('./database')
 
 
