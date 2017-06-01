@@ -34,6 +34,6 @@ a:hover{
 
 @media (max-width:600){
     div.info{
-        width:70;
+        width:70vw;
     }
 }
