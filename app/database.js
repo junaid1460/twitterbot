@@ -1,7 +1,7 @@
 var express = require("express")
 var mongoose = require("mongoose")
 // <3 mlab
-mongoose.connect('mongodb://crook:123456789@ds157571.mlab.com:57571/site')
+mongoose.connect('mongodb://{user}:{dbpassword}@ds157571.mlab.com:57571/site')
 var router = express.Router()
 
 
