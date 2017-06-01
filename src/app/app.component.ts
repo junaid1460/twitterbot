@@ -65,7 +65,10 @@ export class AppComponent {
        
   }
   doit(){
-       this._prof.getTweets().subscribe(e=>{
+            //no use computing in host
+            //fat client lol
+      
+             this._prof.getTweets().subscribe(e=>{
             if(e.text.toString()==""){
             //  console.log("try again")
               setTimeout(this.doit,3000)
@@ -73,20 +76,23 @@ export class AppComponent {
             //  console.log("start replace")
               this.tweets = e.json();
               let domains = []
-              let rex =/https?:\/\/[\[\w\-\.]*\.[\w]*/i;
-             for(let i = 0 ;i< this.tweets.length;i++) {
-                for(let j = 0 ;j< this.tweets[i].urls.length;j++) {
-                 this.tweets[i].text =  this.tweets[i].text.
-                 replace(
+              // regex for extracting domain
+              let rex =/https?:\/\/([\[\w\-\.]*\.[\w]*)/i;
+              for(let i = 0 ;i< this.tweets.length;i++) {
+                  for(let j = 0 ;j< this.tweets[i].urls.length;j++) {
+                  this.tweets[i].text =  this.tweets[i].text.
+                  //replace each modified link with hyperlink to original external host
+                  replace(
                         this.tweets[i].urls[j].url,
                         "<a href=\""+this.tweets[i].urls[j].expanded_url+"\">"+this.tweets[i].urls[j].display_url+"</a>"
                         );
-                 let res = rex.exec(this.tweets[i].urls[j].expanded_url);
-                 if(domains[res[0]])
+                  let res = rex.exec(this.tweets[i].urls[j].expanded_url);
+                  // count occurence together
+                  if(domains[res[0]])
                   {
-                    domains[res[0]]++;
+                      domains[res[0]]++;
                   }else{
-                    domains[res[0]] = 1;
+                      domains[res[0]] = 1;
                   }
                 
                 }
