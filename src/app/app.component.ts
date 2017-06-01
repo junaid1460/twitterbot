@@ -122,13 +122,14 @@ export class AppComponent {
   }
   log(){
   }
-    dl:boolean ;
+    dl:boolean = false;
   @HostListener('window:resize',['$event'])
   resize(){
     if(window.innerWidth > 700 ){ 
       this.dl = true;
       this.show = "flex"
     } else {
+
       this.dl = false;
       this.show = "none";
     }

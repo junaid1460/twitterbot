@@ -4,7 +4,8 @@ router-outlet
             div(class="container")
                 div(class="sb")
                     div(style="display:flex;height:100%;flex-direction:column;padding-top:30px;align-items: center;")
-                        img(style="border-radius:50px;width:30px;height:30px",title="{{name}}",src="{{img}}")
+                        a(href="http://www.twitter.com/{{username}}")
+                            img(style="border-radius:50px;width:30px;height:30px",title="{{name}}",src="{{img}}")
                         button(class="icon",[routerLink]="['/help']",title="About")
                             i(class="material-icons") info
                         a(class="icon",(click)="sd()",style="color:white;cursor:pointer",title="log out",href="/logout")
