@@ -1,6 +1,6 @@
 # Twiiter Bot
 
-A `MEAN` stack app. The app grabs all the tweets of user and his friends which has hyperlink. Once all data is queried app analyses the data and shows most shared links and as well the as the person who shared shared max number of links. All the Tweets obtained from user is saved in `mongoDB` hosted by `mlab`. UI is completely build from from scratch since all angular UIs or other are bloated. 
+A `MEAN` stack app. The app grabs all the tweets of user and his friends which has hyperlink. Once all data is queried, app analyses the data and shows most shared links and as well the as the person who shared shared max number of links. All the Tweets obtained from user is saved in `mongoDB` hosted by `mlab`. UI is completely built from from scratch since all angular UIs or other are bloated. 
 
 Have a loot at Twitter bot [here](https://murmuring-hollows-88524.herokuapp.com/).
 
@@ -8,7 +8,7 @@ clone it : `git clone https://github.com/junaid1460/twitterbot.git`
 
 ## Dependencies
 global dependencies
-  - `nodeJS@6.10` or latest lts
+  - `nodeJS@6.10` or latest LTS version
   - `npm@3.10` or latest
   - Angular CLI `npm install -g @angular/cli`
   - Pug/JADE CLI `npm install -g pug-cli`
