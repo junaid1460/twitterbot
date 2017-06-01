@@ -15,8 +15,7 @@
     "server": "nodemon ./server.js",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "pugwatch": "pug -O \"{'doctype':'html'}\" -P -w *",
-    "buildandrun": "ng build --aot --prod&&nodemon"
+    "pugwatch": "pug -O \"{'doctype':'html'}\" -P -w *"
   },
   "private": true,
   "dependencies": {
