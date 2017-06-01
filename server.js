@@ -6,9 +6,7 @@ var pt = require("passport-twitter")
 
 var app = express();
 
-var port = process.env.PORT || 5000;                              //release
-if(process.env.DEBUG = true) port = 8000;   //debug
-
+var port = process.env.PORT || 5000;      
 
 
 
