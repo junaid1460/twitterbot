@@ -7,7 +7,7 @@ var database = require('./database')
 
 
 //passport
-const callback_URL  = 'http://localhost:8000/twitter/authenticated';
+const callback_URL  = 'https://murmuring-hollows-88524.herokuapp.com/twitter/authenticated';
 //don't tell anybody
 var consumer_key    = 'p8YmEA7Fur40BH1imRQzvgiIA';
 var consumer_secret = 'zhHuquI8HF8d5d1V0xuDZ7tKBbNjZhlCMQcMkzojdNAViy3g5X';
