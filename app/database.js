@@ -7,9 +7,6 @@ var router = express.Router()
 
 module.exports.Tweet = require('./models/tweets')
 module.exports.User = require("./models/users")
-module.exports.Domain = require('./models/domain')
-module.exports.TopDomains = require('./models/topdomains')
-module.exports.Friend = require('./models/topdomains')
 //to be called by upper layer
 function registerRoutes(app){
     app.use("/",router);

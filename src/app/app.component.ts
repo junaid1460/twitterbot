@@ -54,10 +54,10 @@ export class AppComponent {
         this.img = e.json().photos[0].value?e.json().photos[0].value:"/user.png";
         this.name = e.json().displayName;
         this.username = e.json().username
-         console.log(e.json())
+        // console.log(e.json())
        });
        this._prof.getContent().subscribe(e => {
-			console.log("domain",e.json())
+		    //	console.log("domain",e.json())
        })
 
     this.doit();
@@ -67,10 +67,10 @@ export class AppComponent {
   doit(){
        this._prof.getTweets().subscribe(e=>{
             if(e.text.toString()==""){
-              console.log("try again")
+            //  console.log("try again")
               setTimeout(this.doit,3000)
             }else{
-              console.log("start replace")
+            //  console.log("start replace")
               this.tweets = e.json();
               let domains = []
               let rex =/https?:\/\/[\[\w\-\.]*\.[\w]*/i;
@@ -102,7 +102,7 @@ export class AppComponent {
 				   
 				  this.domains.push(dt[i])
 			  }
-              console.log(dt)
+            //  console.log(dt)
 			  updateDomain(e,(e,data)=>{
 				  let count = 0;
 				  let user = null;
@@ -113,7 +113,7 @@ export class AppComponent {
 					  }
 				  }
 				  this.topSharer = user;
-				  console.log(user)
+			//	  console.log(user)
 			  })
 
             }
@@ -129,7 +129,7 @@ export class AppComponent {
       this.dl = true;
       this.show = "flex"
     } else {
-
+      
       this.dl = false;
       this.show = "none";
     }
