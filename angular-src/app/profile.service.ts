@@ -5,9 +5,11 @@ import {HttpModule,Http} from '@angular/http'
 export class ProfileService {
   content = "";
   tweets:TwitterProfile[]  = null;
-  user:AuthUser;
+   img:any;
+  name:any;
+  username:any = null;
   topSharer:any;
-  domains:any[] = [];
+  domains:any[] = null;
   constructor(private _http:Http) { }
   getProfile(){
     return this._http.get("/api/profile")
@@ -18,16 +20,17 @@ export class ProfileService {
   getTweets(){
     return this._http.get("/api/gettweets")
   }
-  processTweets(){
+  processTweets(callback){
             //no use of computing in host
             //fat client lol
-      
+            //console.log("update domain")
              this.getTweets().subscribe(e=>{
             if(e.text.toString()==""){
             //  console.log("try again")
               setTimeout(this.processTweets,3000)
             }else{
             //  console.log("start replace")
+              //console.log("worked :",e.json())
               this.tweets = e.json();
               let domains = []
               // regex for extracting domain
@@ -58,6 +61,7 @@ export class ProfileService {
 			 
 			  dt.sort((a,b)=>{return b.value - a.value})
 			  let len = dt.length < 10 ? dt.length: 10
+        this.domains = [];
 			   for(let i=0;i<len;i++){
 				   
 				  this.domains.push(dt[i])
@@ -73,12 +77,14 @@ export class ProfileService {
 					  }
 				  }
 				  this.topSharer = user;
-			//	  console.log(user)
+		//	 console.log("top",user)
+    callback()
 			  })
 
             }
          
        })
+
   }
 
 

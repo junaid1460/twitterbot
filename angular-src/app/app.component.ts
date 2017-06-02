@@ -15,17 +15,37 @@ import {ProfileService} from './profile.service'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
+  content = "";
+  tweets:TwitterProfile[]  = []
+  img:any;
+  name:any;
+  username:any;
+  topSharer:any;
+  domains:any[] = [];
   constructor(private _prof:ProfileService){
-    if(this._prof.user==null ){
-       this._prof.getProfile().subscribe(function(e){
-         if(e){
-          this._prof.user = e.json();
-          this._prof.processTweets();
-         }
+
+    if(this._prof.tweets == null || this._prof.domains == null || this._prof.username == null ){
+       this._prof.getProfile().subscribe(e => {
+        this._prof.img = e.json().photos[0].value?e.json().photos[0].value:"/user.png";
+        this._prof.name = e.json().displayName;
+        this._prof.username = e.json().username
+        this._prof.processTweets(()=>{ this.setLocalVars()});
+        // console.log(e.json())
+        //
        });
+    }else{
+      this.setLocalVars();
     }
        this.resize();
+       
+  }
+  setLocalVars(){
+            this.username = this._prof.username;
+            this.img = this._prof.img;
+            this.tweets = this._prof.tweets;
+            this.name = this._prof.name;
+            this.topSharer  =this._prof.topSharer;
+            this.domains = this._prof.domains;
   }
     dl:boolean = false;
   @HostListener('window:resize',['$event'])
@@ -46,5 +66,19 @@ export class AppComponent {
   sd(){
     this.show = this.show== "none"?"flex":"none";
   }
+}
+
+interface TwitterProfile{
+  user:string,
+  name:string,
+  urls:Url[],
+  dp:string,
+  text:string
+}
+
+interface Url{
+  url:string,
+  display_url:string,
+  expanded_url:string
 }
 
