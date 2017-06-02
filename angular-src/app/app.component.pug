@@ -4,8 +4,8 @@ router-outlet
             div(class="container")
                 div(class="sb")
                     div(style="display:flex;height:100%;flex-direction:column;padding-top:30px;align-items: center;")
-                        a(href="http://www.twitter.com/{{username}}")
-                            img(style="border-radius:50px;width:30px;height:30px",title="{{name}}",src="{{img}}")
+                        a(href="http://www.twitter.com/{{_prof.user.username}}")
+                            img(style="border-radius:50px;width:30px;height:30px",title="{{_prof.user.displayName}}",src="{{_prof.user.photos[0].value?_prof.user.photos[0].value:'/user.png'}}")
                         button(class="icon",[routerLink]="['/help']",title="About")
                             i(class="material-icons") info
                         a(class="icon",(click)="sd()",style="color:white;cursor:pointer",title="log out",href="/logout")
@@ -23,9 +23,9 @@ router-outlet
                                 div(class="user")
                                     img(style="border-radius:50px",src="{{topSharer.dp}}")
                                 div(style="margin-left:10px")
-                                    p {{topSharer.name}}
-                                    p @{{topSharer.user}}
-                    div(class="userpane",style="margin-top:10px" ,*ngIf="topSharer") Links
+                                    p {{_prof.topSharer.name}}
+                                    p @{{_prof.topSharer.user}}
+                    div(class="userpane",style="margin-top:10px" ,*ngIf="_prof.topSharer") Links
                         div(class="userpane", *ngFor="let dom of domains")
                             a(href="{{dom.name}}") {{dom.name}}
                         
@@ -47,7 +47,7 @@ router-outlet
                         div(class="tweet",style="width:100%")
                             div(class="twinfo")
                                 img(class="tw_dp",src="{{tweet.dp}}",alt="/user.png")
-                                p(style="margin-left:4px")  {{tweet.name}}
+                                p(style="margin-left:4px")  {{_prof.tweet.name}}
                             div(class="twbody")
                                 p([innerHTML]='tweet.text')
                         
