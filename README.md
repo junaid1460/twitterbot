@@ -19,7 +19,7 @@ project dependencies
 
 you have to run several commands in terminal(s)
   - `npm run buildwatch` builds angular app in watch mode
-  - `pug -O "{'doctype':'html'}" -P -w *'` runs pug cli for transpiling pug into html in all subdirectories
+  - `pug -O "{'doctype':'html'}" -P -w *'` (in windows use git bash instead powershell or cmd )runs pug cli for transpiling pug into html in all subdirectories
   - `node server.js` to run server (localhost:5000 or localhost:`process.env.PORT`)
 ## Build
 steps

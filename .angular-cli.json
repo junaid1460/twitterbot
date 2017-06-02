@@ -1,11 +1,11 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "twitter"
+    "name": "twitterbot"
   },
   "apps": [
     {
-      "root": "src",
+      "root": "angular-src",
       "outDir": "static",
       "assets": [
         "assets",
@@ -36,10 +36,10 @@
   },
   "lint": [
     {
-      "project": "src/tsconfig.app.json"
+      "project": "angular-src/tsconfig.app.json"
     },
     {
-      "project": "src/tsconfig.spec.json"
+      "project": "angular-src/tsconfig.spec.json"
     },
     {
       "project": "e2e/tsconfig.e2e.json"
