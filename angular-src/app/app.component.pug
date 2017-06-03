@@ -6,10 +6,12 @@ router-outlet
                     div(style="display:flex;height:100%;flex-direction:column;padding-top:30px;align-items: center;")
                         a(href="http://www.twitter.com/{{username}}")
                             img(style="border-radius:50px;width:30px;height:30px",title="{{name}}",src="{{img}}")
-                        button(class="icon",[routerLink]="['/help']",title="About")
+                        button(class="icon",style="margin-top:10px",[routerLink]="['/help']",title="About")
                             i(class="material-icons") info
-                        a(class="icon",(click)="sd()",style="color:white;cursor:pointer",title="log out",href="/logout")
+                        a(class="icon",(click)="sd()",style="color:white;cursor:pointer;margin-top:10px",title="log out",href="/logout")
                             i(class="material-icons") exit_to_app
+                        a(class="icon",style="color:white;cursor:pointer;margin-top:10px",title="log out",href="/update")
+                            i(class="material-icons") update
                     div(style="display:flex;height:100px;align-items: center;flex-direction: column;")
                         button(class="icon",(click)="sd()" ,*ngIf="!dl")
                             i(class="material-icons") close
@@ -46,8 +48,9 @@ router-outlet
                     li(*ngFor="let tweet of tweets")
                         div(class="tweet",style="width:100%")
                             div(class="twinfo")
-                                img(class="tw_dp",src="{{tweet.dp}}",alt="/user.png")
-                                p(style="margin-left:4px")  {{tweet.name}}
+                                img(class="tw_dp",src="{{tweet.dp}}")
+                                p(style="margin-left:4px")  {{tweet.name}} <br/>
+                                    i(style="width:100%;font-size:7pt") on {{tweet.date}}
                             div(class="twbody")
                                 p([innerHTML]='tweet.text')
                         

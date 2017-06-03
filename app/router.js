@@ -7,10 +7,10 @@ var database = require('./database')
 
 
 //passport
-const callback_URL  = '--callback--';
+const callback_URL  = '';
 //don't tell anybody
-var consumer_key    = '--sssshhhh--';
-var consumer_secret = '--sssshhhh--';
+var consumer_key    = '';
+var consumer_secret = '';
 var userToken = "";
 var userTokenSecret = "";
 var userProfile = null;
@@ -115,7 +115,7 @@ function lesserThan(range = new Date(),check = new Date()){
 // offsetId : keeping some page count
 // dataset : final data
 // callback : function where final data is passed 
-function obtainTweets (method,params, number, offsetId, dataset, callback) {
+function obtainTweets (T,method,params, number, offsetId, dataset, callback) {
     dataset = dataset || []
     if (number < 0) return callback(null, dataset)
 
@@ -124,7 +124,7 @@ function obtainTweets (method,params, number, offsetId, dataset, callback) {
         if (error) return callback(error)
 
         dataset = dataset.concat(data)
-        return obtainTweets(method,params, number-100, offsetId, dataset, callback)
+        return obtainTweets(T,method,params, number-100, offsetId, dataset, callback)
     })
 }
 
@@ -137,7 +137,7 @@ function obtainTweets (method,params, number, offsetId, dataset, callback) {
 // number : pagecount
 // dataset : final data
 // callback : function where final data is passed 
-function foreach(number,array,params,dataset,callback){
+function foreach(T,number,array,params,dataset,callback){
     dataset = dataset||[]
     if(number<=0){
         console.log("calling callback\n")
@@ -150,7 +150,7 @@ function foreach(number,array,params,dataset,callback){
             if(!error)
             dataset = dataset.concat(data);
             console.log(dataset.length);
-            return foreach(number-1,array,params,dataset,callback);
+            return foreach(T,number-1,array,params,dataset,callback);
     });
     }
 }
@@ -180,15 +180,15 @@ function getData(T,username,cb){ //query data from twitter
 
 
     //  1. get current user's tweets
-    obtainTweets('statuses/user_timeline',{q:"http:// since:2017-05-23",count : 3000},1,null,null, (error,dataset) =>{
-        //console.log(dataset);
+    obtainTweets(T,'statuses/user_timeline',{q:"http:// since:2017-05-23",count : 3000},1,null,null, (error,dataset) =>{
+        console.log(dataset);
         //  2. get user's friends list/array
-        obtainTweets('followers/ids',{ count:3000}, 1, null, null, (error, data) => {
+        obtainTweets(T,'followers/ids',{ count:3000}, 1, null, null, (error, data) => {
             //  3. for each user id get posts related to user id 
             //  4. concatinate dataset, the variable data set having current user data is passed to function 
             //     to concatinate friends' tweets
             
-            foreach(data[0].ids.length -1,data[0].ids,null,dataset,(e,datas) => {
+            foreach(T,data[0].ids.length -1,data[0].ids,null,dataset,(e,datas) => {
             // romove old data if exist. don't want to go out of memory
             // following things are mongoose stuffs
             // Now I have all tweets I need
@@ -212,13 +212,14 @@ function getData(T,username,cb){ //query data from twitter
                             //promise resolver
                             res(function(){
                                 // subtract date by 7
-                                date  = subtract(new Date() - 7);
+                                date  = subtract(new Date(),7);
                                 //iterate thru all received tweets
                                 for(i=0;i<datas.length;i++){
                                     //  her we are filtering tweets
                                     //  take only those tweets which has some sort of link in it
                                     //  and withingthe range from today and (today - 7) ie: within past 7 days 
                                     //  5. extract what you need
+                                 
                                     if(datas[i].entities.urls.length > 0 && lesserThan(date,new Date(datas[i].created_at)))
                                     {
                                             dt.push(

@@ -26,12 +26,13 @@ export class AppComponent {
 
     if(this._prof.tweets == null || this._prof.domains == null || this._prof.username == null ){
        this._prof.getProfile().subscribe(e => {
+         console.log(e.json().photos);
         this._prof.img = e.json().photos[0].value?e.json().photos[0].value:"/user.png";
         this._prof.name = e.json().displayName;
         this._prof.username = e.json().username
         this._prof.processTweets(()=>{ this.setLocalVars()});
-        // console.log(e.json())
-        //
+        console.log(this._prof.tweets)
+      
        });
     }else{
       this.setLocalVars();
@@ -46,6 +47,7 @@ export class AppComponent {
             this.name = this._prof.name;
             this.topSharer  =this._prof.topSharer;
             this.domains = this._prof.domains;
+            console.log(this._prof.tweets)
   }
     dl:boolean = false;
   @HostListener('window:resize',['$event'])

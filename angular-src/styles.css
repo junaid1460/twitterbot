@@ -16,6 +16,13 @@ button.icon{
     margin: 8px;
 }
 
+i.rt{
+       font-size: 8pt;
+    border-radius: 2px;
+    background: #e0e0e0;
+    color: gray;
+    padding: 3px 5px;
+}
 a{
     color:#03a9f4;
     text-decoration:none;

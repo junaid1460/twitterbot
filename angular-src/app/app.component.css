@@ -17,6 +17,7 @@
     padding-left:10px;
 
 }
+
 div.container{
     display: flex;
     flex-direction: row;
@@ -115,7 +116,6 @@ div.container{
 .toolbar{
     color:#00bcd4;
 }
-
 
 
 @media (max-width:700px){
