@@ -38,7 +38,7 @@ export class ProfileService {
               for(let i = 0 ;i< this.tweets.length;i++) {
                   for(let j = 0 ;j< this.tweets[i].urls.length;j++) {
                   let tdate = new Date(this.tweets[i].date);
-                  this.tweets[i].date =( tdate.getMonth()+1) +"/"+ tdate.getFullYear()+"/"+tdate.getDate();
+                  this.tweets[i].date =tdate.getDate()+"/"+ (tdate.getMonth()+1) +"/"+ tdate.getFullYear();
                   let text = this.tweets[i].text;
                   let tarr = text.split(':')[0].split(' ')
                   if( tarr && tarr[0] == 'RT' && tarr[1][0] =='@'){
