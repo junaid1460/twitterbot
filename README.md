@@ -1,4 +1,4 @@
-# Twiiter Bot
+# Twitter Bot
 
 A `MEAN` stack app. The app grabs all the tweets of user and his friends which has hyperlink. Once all data is queried, app analyses the data and shows most shared links and as well the as the person who shared shared max number of links. All the Tweets obtained from user is saved in `mongoDB` hosted by `mlab`. UI is completely built from from scratch since all angular UIs or other are bloated. 
 
